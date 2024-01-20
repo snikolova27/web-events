@@ -1,0 +1,64 @@
+body{
+    background-color: #defdf1;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.form{
+    border-style:solid;
+    border-color: #87b57e;
+    border-width: 2px;
+    width:40%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items:center;
+    margin-left: 30%;
+    margin-right:30%;
+    margin-top:10%;
+}
+
+input, select, button{
+    height: 150%;
+    width: 90%;
+    margin-bottom:10px;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+textarea:focus,input:focus,select:focus,textarea:hover,select:hover,input:hover {
+    outline:none;
+    border-style:solid;
+    border-color:rgb(62, 165, 62);
+}
+
+.firstInput{
+    margin-top: 20px;
+}
+
+.register{
+    margin-bottom: 20px;
+    background-color: #cfe7d9;
+    border-style:solid;
+    border-color:#7e9989;
+    color:rgb(84, 146, 84);
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+button.register:hover{
+    background-color: rgb(84, 146, 84);
+    color: white;
+    border-style:solid;
+    border-color:rgb(84, 146, 84);
+}
+
+h1{
+    text-align: center;
+    margin-top:5%;
+}
+.error {
+    color: red;
+}
+.error-input {
+    border: 1px solid red;
+}

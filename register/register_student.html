@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/forms.css" />
     <title>Student Registration - Web events</title>
 </head>
 <body>
     <h1>Student Registration</h1>
-    <form action="register_student.php" method="post">
+    <form class="form" action="register_student.php" method="post">
         <label for="fn">Faculty Number:</label>
         <input type="text" id="fn" name="fn" required>
         <br>
@@ -31,7 +32,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
-        <input type="submit" value="Register as Student">
+        <input type="submit"  class="register" value="Register as Student">
     </form>
 </body>
 </html>
