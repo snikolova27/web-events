@@ -7,7 +7,6 @@ class Student
 
     // Object properties
     public $fn;
-    public $name;
     public $major;
     public $adm_group;
     public $user_id;
@@ -23,21 +22,19 @@ class Student
     {
         // Insert query
         $query = "INSERT INTO " . $this->table_name . " 
-                  SET fn=:fn, name=:name, major=:major, adm_group=:adm_group, user_id=:user_id";
+                  SET fn=:fn,  major=:major, adm_group=:adm_group, user_id=:user_id";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
 
         // Clean data
         $this->fn = htmlspecialchars(strip_tags($this->fn));
-        $this->name = htmlspecialchars(strip_tags($this->name));
         $this->major = htmlspecialchars(strip_tags($this->major));
         $this->adm_group = htmlspecialchars(strip_tags($this->adm_group));
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
 
         // Bind data
         $statement->bindParam(":fn", $this->fn);
-        $statement->bindParam(":name", $this->name);
         $statement->bindParam(":major", $this->major);
         $statement->bindParam(":adm_group", $this->adm_group);
         $statement->bindParam(":user_id", $this->user_id);
@@ -50,7 +47,7 @@ class Student
         return false;
     }
 
-    // Method to getAllStudents student data
+    // Method to getAllStudents 
     public function getAllStudents()
     {
         // Select query
@@ -67,11 +64,7 @@ class Student
 
         $row = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // Set properties
-        $this->name = $row['name'];
-        $this->major = $row['major'];
-        $this->adm_group = $row['adm_group'];
-        $this->user_id = $row['user_id'];
+        return $row;
     }
 
     // Method to update a student
@@ -79,14 +72,13 @@ class Student
     {
         // Update query
         $query = "UPDATE " . $this->table_name . " 
-                  SET name = :name, major = :major, adm_group = :adm_group, user_id = :user_id
+                  SET major = :major, adm_group = :adm_group, user_id = :user_id
                   WHERE fn = :fn";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
 
         // Clean data and bind values
-        $statement->bindParam(":name", htmlspecialchars(strip_tags($this->name)));
         $statement->bindParam(":major", htmlspecialchars(strip_tags($this->major)));
         $statement->bindParam(":adm_group", htmlspecialchars(strip_tags($this->adm_group)));
         $statement->bindParam(":user_id", htmlspecialchars(strip_tags($this->user_id)));
@@ -125,3 +117,4 @@ class Student
 /*
 $db = new PDO("mysql:host=your_host;dbname=your_db", "your_username", "your_password");
 $student = new Student($db);
+*/

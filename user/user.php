@@ -128,6 +128,31 @@ class User
 
         return true;
     }
+
+    // Method to get the last registered user
+    public function getLastRegisteredUser()
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC LIMIT 1";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+
+        try {
+            // Execute query
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null; 
+        }
+    }
 }
 
 // To use this class, you need to have a database connection. For example:
