@@ -150,7 +150,34 @@ class User
             return $row;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
-            return null; 
+            return null;
+        }
+    }
+
+    // Method to get user data by email
+    public function getUserByEmail()
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameter
+        $statement->bindParam(':email', $this->email);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
         }
     }
 }
