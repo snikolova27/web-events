@@ -7,9 +7,11 @@ class User
 
     // Object properties
     public $id;
-    public $name;
+    public $names;
     public $email;
     public $is_admin;
+
+    public $password;
 
     // Constructor with DB connection
     public function __construct($db)
@@ -36,27 +38,33 @@ class User
     public function create()
     {
         // Insert query
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, email=:email, is_admin=:is_admin";
+        $query = "INSERT INTO " . $this->table_name . " SET names=:names, email=:email, is_admin=:is_admin, password=:password";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
 
         // Clean data
-        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->names = htmlspecialchars(strip_tags($this->names));
         $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->password =  password_hash(htmlspecialchars(strip_tags($this->password)),  PASSWORD_BCRYPT);
         $this->is_admin = htmlspecialchars(strip_tags($this->is_admin));
 
         // Bind data
-        $statement->bindParam(":name", $this->name);
+        $statement->bindParam(":names", $this->names);
         $statement->bindParam(":email", $this->email);
         $statement->bindParam(":is_admin", $this->is_admin);
+        $statement->bindParam(":password", $this->password);
+
 
         // Execute query
-        if ($statement->execute()) {
-            return true;
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error creating user: " . $e->getMessage();
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     // Method to update a user
@@ -64,30 +72,35 @@ class User
     {
         // Update query
         $query = "UPDATE " . $this->table_name . " 
-                  SET name = :name, email = :email, is_admin = :is_admin
+                  SET names = :names, email = :email, is_admin = :is_admin, password=:password
                   WHERE id = :id";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
 
         // Clean data
-        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->names = htmlspecialchars(strip_tags($this->names));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->is_admin = htmlspecialchars(strip_tags($this->is_admin));
         $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->password =  password_hash(htmlspecialchars(strip_tags($this->password)),  PASSWORD_BCRYPT);
 
         // Bind data
-        $statement->bindParam(':name', $this->name);
+        $statement->bindParam(':names', $this->names);
         $statement->bindParam(':email', $this->email);
         $statement->bindParam(':is_admin', $this->is_admin);
         $statement->bindParam(':id', $this->id);
+        $statement->bindParam(':password', $this->password);
 
         // Execute query
-        if ($statement->execute()) {
-            return true;
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error updating user: " . $e->getMessage();
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     // Method to delete a user
@@ -106,11 +119,14 @@ class User
         $statement->bindParam(':id', $this->id);
 
         // Execute query
-        if ($statement->execute()) {
-            return true;
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error deleting user: " . $e->getMessage();
+            return false;
         }
 
-        return false;
+        return true;
     }
 }
 
