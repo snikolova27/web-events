@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/forms.css">
+    <link rel="stylesheet" href="../styles/common.css">
     <title>Sign In - Web Events</title>
 </head>
 
@@ -24,6 +25,7 @@
             <p class="error">Incorrect password. Please try again.</p>
         <?php endif; ?>
         <input type="submit" value="Sign In" class="register">
+        <a href="../index.html" class="back-to-home">Back to home</a>
     </form>
 </body>
 
