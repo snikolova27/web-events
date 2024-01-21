@@ -40,10 +40,12 @@ class FacultyMember
     }
 
     // Method to getAllFacultyMembers faculty member data
-    public function getAllFacultyMembers()
+    // Modified Method to get all faculty members with names
+    public function getAllFacultyMembers() 
     {
-        // Select query
-        $query = "SELECT * FROM " . $this->table_name;
+        // SQL query to join faculty_members with users and get the names
+        $query = "SELECT faculty_members.fm_id, users.names, users.email FROM " . $this->table_name . "
+                  JOIN users ON faculty_members.user_id = users.id";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
@@ -51,17 +53,11 @@ class FacultyMember
         // Execute query
         try {
             $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error getting all faculty members : " . $e->getMessage();
+            echo "Error getting all faculty members: " . $e->getMessage();
             return null;
         }
-
-        if ($statement->rowCount() > 0) {
-            return $statement->fetch(PDO::FETCH_ASSOC);;
-        } else {
-            return null;
-        }
-
     }
 
     // Method to update a faculty member
@@ -104,5 +100,20 @@ class FacultyMember
         }
 
         return false;
+    }
+
+    public function getFacultyMemberByUserId($userId) {
+        $query = "SELECT * FROM faculty_members WHERE user_id = :user_id";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":user_id", $userId);
+
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting faculty member by user ID: " . $e->getMessage();
+            return null;
+        }
     }
 }
