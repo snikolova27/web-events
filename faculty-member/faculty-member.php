@@ -49,12 +49,19 @@ class FacultyMember
         $statement = $this->connection->prepare($query);
 
         // Execute query
-        $statement->execute();
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error getting all faculty members : " . $e->getMessage();
+            return null;
+        }
 
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($statement->rowCount() > 0) {
+            return $statement->fetch(PDO::FETCH_ASSOC);;
+        } else {
+            return null;
+        }
 
-        // Set properties
-        $this->user_id = $row['user_id'];
     }
 
     // Method to update a faculty member
