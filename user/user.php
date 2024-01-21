@@ -207,4 +207,19 @@ class User
             return null;
         }
     }
+
+    public function getUserByEmail2($email) {
+        $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":email", $email);
+
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting user by email: " . $e->getMessage();
+            return null;
+        }
+    }
 }
