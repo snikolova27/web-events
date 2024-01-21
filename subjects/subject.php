@@ -53,10 +53,15 @@ class Subject
         // Execute query
         try {
             $statement->execute();
-            $rows = $statement->fetch(PDO::FETCH_ASSOC);
-            return $rows;
+           
         } catch (PDOException $e) {
             echo "Error getting all subjects : " . $e->getMessage();
+            return null;
+        }
+
+        if ($statement->rowCount() > 0) {
+            return $statement->fetch(PDO::FETCH_ASSOC);;
+        } else {
             return null;
         }
     }

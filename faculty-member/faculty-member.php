@@ -43,13 +43,10 @@ class FacultyMember
     public function getAllFacultyMembers()
     {
         // Select query
-        $query = "SELECT * FROM " . $this->table_name . " WHERE fm_id = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name;
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
-
-        // Bind fm_id
-        $statement->bindParam(1, $this->fm_id);
 
         // Execute query
         $statement->execute();

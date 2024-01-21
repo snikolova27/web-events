@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $userData['id']; 
 
             // Redirect to a secure page (adjust the URL as needed)
-            header("Location: ../events/events.php");
+            header("Location: ../home/home.html");
             exit();
         } else {
             // Redirect with incorrect password error

@@ -1,0 +1,22 @@
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.no-results {
+    margin: 20px;
+    font-weight: bold;
+    color: #555;
+}

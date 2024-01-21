@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return null;
         }
 
-        header("Location: ../home/home.html");
+        header("Location: ../signin/signin.php");
         exit();
     } catch (PDOException $e) {
         echo "Error creating user: " . $e->getMessage();

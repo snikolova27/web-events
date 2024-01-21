@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Set user properties
     $user->email = $_POST['email'];
     $user->password = $_POST['password'];
-    $user->names - $_POST['name'];
+    $user->names = $_POST['name'];
 
     // Create the user
     try {
