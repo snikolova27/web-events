@@ -46,6 +46,7 @@ $currentUser = $user->getUserById($userId);
     if ($currentUser['is_admin'] === 1) {
       ?>
       <a href="../subjects/create_subject.html" class="common-button">Create subject</a>
+      <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject</a>
     <?php
     }
     ?>
