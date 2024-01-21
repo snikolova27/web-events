@@ -51,13 +51,10 @@ class Student
     public function getAllStudents()
     {
         // Select query
-        $query = "SELECT * FROM " . $this->table_name . " WHERE fn = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name;
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
-
-        // Bind fn
-        $statement->bindParam(1, $this->fn);
 
         // Execute query
         $statement->execute();
@@ -112,9 +109,3 @@ class Student
         return false;
     }
 }
-
-// Usage example
-/*
-$db = new PDO("mysql:host=your_host;dbname=your_db", "your_username", "your_password");
-$student = new Student($db);
-*/

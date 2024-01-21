@@ -181,9 +181,3 @@ class User
         }
     }
 }
-
-// To use this class, you need to have a database connection. For example:
-/*
-$db = new PDO("mysql:host=your_host;dbname=your_db", "your_username", "your_password");
-$user = new User($db);
-*/
