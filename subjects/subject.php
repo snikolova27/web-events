@@ -114,4 +114,26 @@ class Subject
 
         return true;
     }
+
+    public function getSubjectByName($name) {
+        // SQL query to select the subject by name
+        $query = "SELECT * FROM " . $this->table_name . " WHERE name = :name LIMIT 1";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Clean data and bind value
+        $cleanName = htmlspecialchars(strip_tags($name));
+        $statement->bindParam(":name", $cleanName);
+
+        // Execute query
+        try {
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result : null;
+        } catch (PDOException $e) {
+            echo "Error getting subject by name: " . $e->getMessage();
+            return null;
+        }
+    }
 }
