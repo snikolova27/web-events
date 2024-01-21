@@ -18,10 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userData = $user->getUserByEmail();
 
     if ($userData) {
-         // Verify the entered password
-         if (password_verify($user->password, $userData['password'])) {
+        // Verify the entered password
+        if (password_verify($user->password, $userData['password'])) {
             // Password is correct, user is signed in
             echo "Sign-in successful. Welcome, {$userData['names']}!";
+
+            // Generate a unique token 
+            $token = bin2hex(random_bytes(32));
+
+            // Save the token to the session
+            session_start();
+            $_SESSION['user_token'] = $token;
+            $_SESSION['user_id'] = $userData['id']; 
+
+            // Redirect to a secure page (adjust the URL as needed)
+            header("Location: ../events/events.php");
+            exit();
         } else {
             // Redirect with incorrect password error
             header("Location: signin.php?error=incorrect_password");
