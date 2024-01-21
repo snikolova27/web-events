@@ -23,7 +23,6 @@ $subject = new Subject($connection);
 
 // Get all subjects
 $subjects = $subject->getAllSubjects();
-echo $subjects
 
 ?>
 
@@ -55,7 +54,7 @@ echo $subjects
             <tbody>
                 <?php
                 // Display the subjects in the table
-                while ($row = $subjects->fetch(PDO::FETCH_ASSOC)) {
+                foreach ($subjects as $row) {
                     echo "<tr>";
                     echo "<td>{$row['id']}</td>";
                     echo "<td>{$row['name']}</td>";

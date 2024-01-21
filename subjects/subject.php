@@ -60,7 +60,7 @@ class Subject
         }
 
         if ($statement->rowCount() > 0) {
-            return $statement->fetch(PDO::FETCH_ASSOC);;
+            return $statement;
         } else {
             return null;
         }

@@ -47,7 +47,7 @@ class User
         $this->names = htmlspecialchars(strip_tags($this->names));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password =  password_hash(htmlspecialchars(strip_tags($this->password)),  PASSWORD_BCRYPT);
-        $this->is_admin = htmlspecialchars(strip_tags($this->is_admin));
+        $this->is_admin = htmlspecialchars(strip_tags(1));
 
         // Bind data
         $statement->bindParam(":names", $this->names);
@@ -165,6 +165,33 @@ class User
 
         // Bind parameter
         $statement->bindParam(':email', $this->email);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Method to get user data by id
+    public function getUserById($userId)
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameter
+        $statement->bindParam(':id', $userId);
 
         // Execute query
         try {
