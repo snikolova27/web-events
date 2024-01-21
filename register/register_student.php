@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $student->fn = $_POST['fn'];
         $student->major = $_POST['major'];
         $student->adm_group = $_POST['adm_group'];
+        $student->course = $_POST['course'];
         $last_registered_user =$user->getLastRegisteredUser();
         $student->user_id = $last_registered_user['id'];
 
