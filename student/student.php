@@ -8,6 +8,8 @@ class Student
     // Object properties
     public $fn;
     public $major;
+
+    public $course;
     public $adm_group;
     public $user_id;
 
@@ -22,7 +24,7 @@ class Student
     {
         // Insert query
         $query = "INSERT INTO " . $this->table_name . " 
-                  SET fn=:fn,  major=:major, adm_group=:adm_group, user_id=:user_id";
+                  SET fn=:fn,  major=:major, adm_group=:adm_group, user_id=:user_id, course=:course";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
@@ -31,12 +33,14 @@ class Student
         $this->fn = htmlspecialchars(strip_tags($this->fn));
         $this->major = htmlspecialchars(strip_tags($this->major));
         $this->adm_group = htmlspecialchars(strip_tags($this->adm_group));
+        $this->course = htmlspecialchars(strip_tags($this->course));
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
 
         // Bind data
         $statement->bindParam(":fn", $this->fn);
         $statement->bindParam(":major", $this->major);
         $statement->bindParam(":adm_group", $this->adm_group);
+        $statement->bindParam(":course", $this->course);
         $statement->bindParam(":user_id", $this->user_id);
 
         // Execute query
@@ -69,7 +73,7 @@ class Student
     {
         // Update query
         $query = "UPDATE " . $this->table_name . " 
-                  SET major = :major, adm_group = :adm_group, user_id = :user_id
+                  SET major = :major, adm_group = :adm_group, user_id = :user_id, course= :course
                   WHERE fn = :fn";
 
         // Prepare query statement
@@ -80,6 +84,8 @@ class Student
         $statement->bindParam(":adm_group", htmlspecialchars(strip_tags($this->adm_group)));
         $statement->bindParam(":user_id", htmlspecialchars(strip_tags($this->user_id)));
         $statement->bindParam(":fn", htmlspecialchars(strip_tags($this->fn)));
+        $statement->bindParam(":course", htmlspecialchars(strip_tags($this->course)));
+
 
         // Execute query
         if ($statement->execute()) {
