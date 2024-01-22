@@ -103,7 +103,7 @@ class FacultyMember
     }
 
     public function getFacultyMemberByUserId($userId) {
-        $query = "SELECT * FROM faculty_members WHERE user_id = :user_id";
+        $query = "SELECT * FROM faculty_members WHERE user_id = :user_id LIMIT 1";
 
         $statement = $this->connection->prepare($query);
         $statement->bindParam(":user_id", $userId);
@@ -113,6 +113,27 @@ class FacultyMember
             return $statement->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error getting faculty member by user ID: " . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Method to get subjects assigned to a faculty member
+    public function getAssignedSubjects($facultyMemberId) {
+        // SQL query to join the tables and get the subjects for this faculty member
+        $query = "SELECT s.*, fmx.id AS fm_x_subject_id  FROM subjects s
+                  JOIN fm_x_subject fmx ON s.id = fmx.subject_id
+                  WHERE fmx.fm_id = :fm_id";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":fm_id", $facultyMemberId);
+
+        // Execute query
+        try {
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting assigned subjects: " . $e->getMessage();
             return null;
         }
     }

@@ -59,6 +59,7 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
     // Check if the user is a faculty member or an adminto display the Attendances" button
     if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
       ?>
+      <a href="../events/create_event_view.php" class="common-button">Create an event</a>
       <a href="../attendance/attendances_page.php" class="common-button">Attendances</a>
     <?php
     }
