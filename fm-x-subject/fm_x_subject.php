@@ -18,7 +18,7 @@ class FmXSubject
         $this->connection = $db;
     }
 
-    // Method to create a new student
+    // Method to create a new fm_x_subject entry
     public function create()
     {
         // Insert query
@@ -44,13 +44,13 @@ class FmXSubject
         try {
             $statement->execute();
         } catch (PDOException $e) {
-            echo "Error creating subject: " . $e->getMessage();
+            echo "Error creating fm_x_subject entry: " . $e->getMessage();
             return false;
         }
         return true;
     }
 
-    // Method to update a subject
+    // Method to update a fm_x_subject entry
     public function update()
     {
         // Update query
@@ -72,14 +72,14 @@ class FmXSubject
         try {
             $statement->execute();
         } catch (PDOException $e) {
-            echo "Error updating subject: " . $e->getMessage();
+            echo "Error updating fm_x_subject entry: " . $e->getMessage();
             return false;
         }
 
         return true;
     }
 
-    // Method to delete a student
+    // Method to delete a fm_x_subject entry
     public function delete()
     {
         // Delete query
@@ -95,7 +95,7 @@ class FmXSubject
         try {
             $statement->execute();
         } catch (PDOException $e) {
-            echo "Error deleting subject: " . $e->getMessage();
+            echo "Error deleting fm_x_subject entry: " . $e->getMessage();
             return false;
         }
 

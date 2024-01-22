@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = new Db();
     $connection = $db->getConnection();
 
-    // Set user properties
+    // Set fm_x_subject entry properties
     $email = $_POST['faculty_member_email'];
     $subjectName = $_POST['subject_name'];
 
     $user = new User($connection);
-    $userData = $user->getUserByEmail2($email);
+    $userData = $user->getSingleUserByEmail($email);
 
     if (!$userData) {
         echo "Unable to fetch user with e-mail: " . $email;
@@ -48,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fmXSubject->start_date = $_POST['start_date'];
     $fmXSubject->end_date = $_POST['end_date'];
 
-    // Create the fmXSubject
+    // Create the fm_x_subject entry
     try {
         $fmXSubject->create();
         header("Location: ../home/home.php");
         exit();
     } catch (PDOException $e) {
-        echo "Error creating user: " . $e->getMessage();
+        echo "Error creating fm_x_subject entry: " . $e->getMessage();
         header("Location: ../home/home.php");
         exit();
     }

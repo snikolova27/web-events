@@ -10,19 +10,18 @@
   </head>
   <body>
     <?php
-    // Include your database connection and any necessary class files
-    require_once "../db/db.php"; // Update with the actual path
-    require_once "../subjects/subject.php"; // If you have a class to handle subjects
-    require_once "../faculty-member/faculty-member.php"; // If you have a class to handle faculty members
+    require_once "../db/db.php";
+    require_once "../subjects/subject.php"; 
+    require_once "../faculty-member/faculty-member.php"; 
 
     $db = new Db();
     $connection = $db->getConnection();
 
-    $subject = new Subject($connection); // Create an instance and pass the PDO object
-    $subjects = $subject->getAllSubjects(); // Assuming this method fetches all subjects
+    $subject = new Subject($connection); 
+    $subjects = $subject->getAllSubjects(); 
 
-    $facultyMember = new FacultyMember($connection); // Similar for faculty members
-    $facultyMembers = $facultyMember->getAllFacultyMembers(); // Fetch all faculty members
+    $facultyMember = new FacultyMember($connection);
+    $facultyMembers = $facultyMember->getAllFacultyMembers(); 
     ?>
 
     <h1>Assign a subject to a faculty member</h1>

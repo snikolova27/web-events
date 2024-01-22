@@ -208,7 +208,7 @@ class User
         }
     }
 
-    public function getUserByEmail2($email) {
+    public function getSingleUserByEmail($email) {
         $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
 
         $statement = $this->connection->prepare($query);
