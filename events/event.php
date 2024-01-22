@@ -16,6 +16,8 @@ class Event
     public $end_date_time;
 
     public $event_password;
+    
+    public $event_name;
 
     // Constructor with DB connectionection
     public function __construct($db)
@@ -27,7 +29,7 @@ class Event
     public function create()
     {
         // Insert query
-        $query = "INSERT INTO " . $this->table_name . " SET fm_x_subject_id= :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password ";
+        $query = "INSERT INTO " . $this->table_name . " SET fm_x_subject_id= :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password, event_name =:event_name";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
@@ -37,12 +39,14 @@ class Event
         $this->start_date_time = htmlspecialchars(strip_tags($this->start_date_time));
         $this->end_date_time = htmlspecialchars(strip_tags($this->end_date_time));
         $this->event_password = htmlspecialchars(strip_tags($this->event_password));
+        $this->event_name = htmlspecialchars(strip_tags($this->event_name));
 
         // Bind data
         $statement->bindParam(":fm_x_subject_id", $this->fm_x_subject_id);
         $statement->bindParam(":start_date_time", $this->start_date_time);
         $statement->bindParam(":end_date_time", $this->end_date_time);
         $statement->bindParam(":event_password", $this->event_password);
+        $statement->bindParam(":event_name", $this->event_name);
 
         // Execute query
         if ($statement->execute()) {
@@ -80,7 +84,7 @@ class Event
     public function update()
     {
         // Update query
-        $query = "UPDATE " . $this->table_name . " SET fm_x_subject_id = :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password  WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET fm_x_subject_id = :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password, event_name =:event_name WHERE id = :id";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
@@ -90,6 +94,7 @@ class Event
         $statement->bindParam(":start_date_time", $this->start_date_time);
         $statement->bindParam(":end_date_time", $this->end_date_time);
         $statement->bindParam(":event_password", $this->event_password);
+        $statement->bindParam(":event_name", $this->event_name);
 
         // Execute query
         if ($statement->execute()) {

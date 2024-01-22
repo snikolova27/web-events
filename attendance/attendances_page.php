@@ -48,6 +48,7 @@ $attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
             <thead>
                 <tr>
                     <th>Faculty number</th>
+                    <th>Event name</th>
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Subject</th>
@@ -59,6 +60,7 @@ $attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
                 foreach ($attendanceInformation as $row) {
                     echo "<tr>";
                     echo "<td>{$row['fn']}</td>";
+                    echo "<td>{$row['event_name']}</td>";
                     echo "<td>{$row['start_date_time']}</td>";
                     echo "<td>{$row['end_date_time']}</td>";
                     echo "<td>{$row['name']}</td>";
