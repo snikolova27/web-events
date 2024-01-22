@@ -1,6 +1,8 @@
 <?php
 
 require_once("../db/db.php");
+require_once("../user/user.php");
+require_once("../faculty-member/faculty-member.php");
 require_once("subject.php");
 session_start();
 
@@ -21,8 +23,17 @@ $connection = $db->getConnection();
 // Create a Subject object
 $subject = new Subject($connection);
 
+// Create a User object
+$user = new User($connection);
+
 // Get all subjects
 $subjects = $subject->getAllSubjects();
+
+// Get current user information
+$currentUser = $user->getUserById($userId);
+
+$facultyMember = new FacultyMember($connection);
+$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
 
 ?>
 
@@ -40,6 +51,17 @@ $subjects = $subject->getAllSubjects();
 <body>
     <h1> Subjects </h1>
     <p>User ID: <?php echo $userId; ?></p>
+    <div class="horizontal-menu">
+        <a href="../home/home.php" class="common-button">Back to home</a>
+        <?php
+        // Check if the user is a faculty member or an adminto display the Attendances" button
+        if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
+        ?>
+            <a href="create_subject.html" class="common-button">Create a subject</a>
+        <?php
+        }
+        ?>
+    </div>
     <?php
     // Check if there are subjects
     if ($subjects) {
@@ -70,11 +92,8 @@ $subjects = $subject->getAllSubjects();
     }
     ?>
 
-    <!-- add button for adding a subject if user is a faculty memeber -->
-    <div class="menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
 
-    </div>
+
 </body>
 
 </html>

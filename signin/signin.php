@@ -25,7 +25,7 @@
             <p class="error">Incorrect password. Please try again.</p>
         <?php endif; ?>
         <input type="submit" value="Sign In" class="register">
-        <a href="../index.html" class="common-button">Back to home</a>
+        <a href="../index.php" class="common-button">Back to home</a>
     </form>
 </body>
 
