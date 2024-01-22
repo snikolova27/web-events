@@ -1,19 +1,19 @@
 <?php
 
-class EventRecording
+class EventComment
 {
     // Database connectionection
     private $connection;
-    private $table_name = "event_recordings";
+    private $table_name = "event_comments";
 
     // Object properties
     public $id;
 
     public $event_id;
 
-    public $link;
+    public $comment;
 
-    public $is_approved;
+    public $review;
 
     // Constructor with DB connectionection
     public function __construct($db)
@@ -21,24 +21,24 @@ class EventRecording
         $this->connection = $db;
     }
 
-    // Method to create a new event link entry
+    // Method to create a new comment for an event
     public function create()
     {
         // Insert query
-        $query = "INSERT INTO " . $this->table_name . " SET event_id= :event_id, link= :link, is_approved= :is_approved";
+        $query = "INSERT INTO " . $this->table_name . " SET event_id= :event_id, comment= :comment, review= :review";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
 
         // Clean data
         $this->event_id = htmlspecialchars(strip_tags($this->event_id));
-        $this->link = htmlspecialchars(strip_tags($this->link));
-        $this->is_approved = htmlspecialchars(strip_tags($this->is_approved));
+        $this->comment = htmlspecialchars(strip_tags($this->comment));
+        $this->review = htmlspecialchars(strip_tags($this->review));
 
         // Bind data
         $statement->bindParam(":event_id", $this->event_id);
-        $statement->bindParam(":link", $this->link);
-        $statement->bindParam(":is_approved", $this->is_approved);
+        $statement->bindParam(":comment", $this->comment);
+        $statement->bindParam(":review", $this->review);
 
         // Execute query
         if ($statement->execute()) {
@@ -48,8 +48,8 @@ class EventRecording
         return false;
     }
 
-    // Method to get all links for event
-    public function getAllLinksForEvent($eventId)
+    // Method to get all comments for an event
+    public function getAllommentsForEvent($eventId)
     {
         // Select query
         $query = "SELECT * FROM " . $this->table_name . "WHERE event_id=: event_id";
@@ -65,7 +65,7 @@ class EventRecording
         try {
             $statement->execute();
         } catch (PDOException $e) {
-            echo "Error getting all links for event : " . $e->getMessage();
+            echo "Error getting all comments for event : " . $e->getMessage();
             return null;
         }
 
@@ -76,19 +76,19 @@ class EventRecording
         }
     }
 
-    // Method to update a link for an event
+    // Method to update a comment for an event
     public function update()
     {
         // Update query
-        $query = "UPDATE " . $this->table_name . " SET  event_id= :event_id, link= :link, is_approved= :is_approved";
+        $query = "UPDATE " . $this->table_name . " SET  event_id= :event_id, comment= :comment, review= :review";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
 
         // Bind data
         $statement->bindParam(":event_id", $this->event_id);
-        $statement->bindParam(":link", $this->link);
-        $statement->bindParam(":is_approved", $this->is_approved);
+        $statement->bindParam(":comment", $this->comment);
+        $statement->bindParam(":review", $this->review);
 
         // Execute query
         if ($statement->execute()) {
@@ -99,7 +99,7 @@ class EventRecording
     }
 
 
-    // Method to delete a link for an event
+    // Method to delete a comment for an event
     public function delete()
     {
         // Delete query
