@@ -39,3 +39,12 @@ h1 {
     color: rgb(84, 146, 84);
     text-align: center;
 }
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px
+}

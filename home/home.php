@@ -38,7 +38,7 @@ $currentUser = $user->getUserById($userId);
 
 <body>
   <h1>Welcome to Web events</h1>
-  <div>
+  <div class="menu">
     <a href="../subjects/subjects.php" class="common-button">Browse subjects
     </a>
     <?php

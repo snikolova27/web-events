@@ -50,7 +50,7 @@
       <label for="end_date">End Date:</label>
       <input type="date" id="end_date" name="end_date" required />
       <input type="submit" class="register" value="Assign subject" />
-      <a href="../index.html" class="common-button">Back to home</a>
+      <a href="../home/home.php" class="common-button">Back to home</a>
     </form>
   </body>
 </html>
