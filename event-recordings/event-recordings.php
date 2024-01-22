@@ -4,7 +4,7 @@ class EventRecording
 {
     // Database connectionection
     private $connection;
-    private $table_name = "event_";
+    private $table_name = "event_recordings";
 
     // Object properties
     public $id;
