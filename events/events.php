@@ -17,18 +17,22 @@ $userId = $_SESSION['user_id'];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/common.css">
     <title>Events - Web events</title>
 </head>
+
 <body>
     <h1>Welcome to the Events page</h1>
     <p>User ID: <?php echo $userId; ?></p>
     <!-- render events -->
+    <div class="menu">
+        <a href="../home/home.php" class="common-button">Back to home</a>
 
-     <!-- Logout link -->
-     <a href="../logout/logout.php">Logout</a>
+    </div>
 </body>
+
 </html>

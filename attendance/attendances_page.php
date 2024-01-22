@@ -1,7 +1,7 @@
 <?php
 
 require_once("../db/db.php");
-require_once("subject.php");
+require_once("../attendance/attendance.php");
 session_start();
 
 // Check if the user is authenticated (has a valid session)
@@ -18,13 +18,13 @@ $userId = $_SESSION['user_id'];
 $db = new Db();
 $connection = $db->getConnection();
 
-// Create a Subject object
-$subject = new Subject($connection);
+// Create a attendance object
+$attendance = new Attendance($connection);
 
-// Get all subjects
-$subjects = $subject->getAllSubjects();
-
+// Get current user 
+$attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,29 +34,33 @@ $subjects = $subject->getAllSubjects();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
-    <title>Subjects - Web events</title>
+    <title>Attendances - Web events</title>
 </head>
 
 <body>
-    <h1> Subjects </h1>
+    <h1> Attendances </h1>
     <p>User ID: <?php echo $userId; ?></p>
     <?php
     // Check if there are subjects
-    if ($subjects) {
+    if ($attendanceInformation) {
     ?>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
+                    <th>Faculty number</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Subject</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                // Display the subjects in the table
-                foreach ($subjects as $row) {
+                // Display the attendanceInformation in the table
+                foreach ($attendanceInformation as $row) {
                     echo "<tr>";
-                    echo "<td>{$row['id']}</td>";
+                    echo "<td>{$row['fn']}</td>";
+                    echo "<td>{$row['start_date_time']}</td>";
+                    echo "<td>{$row['end_date_time']}</td>";
                     echo "<td>{$row['name']}</td>";
                     echo "</tr>";
                 }
@@ -65,12 +69,10 @@ $subjects = $subject->getAllSubjects();
         </table>
     <?php
     } else {
-        // Display message when no subjects are available
-        echo '<p class="no-results">No subjects available.</p>';
+        // Display message when no attendanceInformation is available
+        echo '<p class="no-results">No attendance information available.</p>';
     }
     ?>
-
-    <!-- add button for adding a subject if user is a faculty memeber -->
     <div class="menu">
         <a href="../home/home.php" class="common-button">Back to home</a>
 

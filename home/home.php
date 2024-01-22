@@ -2,6 +2,7 @@
 
 require_once("../db/db.php");
 require_once("../user/user.php");
+require_once("../faculty-member/faculty-member.php");
 session_start();
 
 // Check if the user is authenticated (has a valid session)
@@ -23,6 +24,10 @@ $user = new User($connection);
 
 // Get current user information
 $currentUser = $user->getUserById($userId);
+
+$facultyMember = new FacultyMember($connection);
+$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
+
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +52,14 @@ $currentUser = $user->getUserById($userId);
       ?>
       <a href="../subjects/create_subject.html" class="common-button">Create subject</a>
       <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject</a>
+    <?php
+    }
+    ?>
+     <?php
+    // Check if the user is a faculty member or an admin to display the Attendances" button
+    if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
+      ?>
+      <a href="../attendance/attendances_page.php" class="common-button">Attendances</a>
     <?php
     }
     ?>
