@@ -11,9 +11,9 @@ class Event
 
     public $fm_x_subject_id;
 
-    public $startDateTime;
+    public $start_date_time;
 
-    public $endDateTime;
+    public $end_date_time;
 
     public $event_password;
 
@@ -27,21 +27,21 @@ class Event
     public function create()
     {
         // Insert query
-        $query = "INSERT INTO " . $this->table_name . " SET fm_x_subject_id= :fm_x_subject_id, startDateTime= :startDateTime, endDateTime= :endDateTime, event_password= :event_password ";
+        $query = "INSERT INTO " . $this->table_name . " SET fm_x_subject_id= :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password ";
 
         // Prepare query
         $statement = $this->connection->prepare($query);
 
         // Clean data
         $this->fm_x_subject_id = htmlspecialchars(strip_tags($this->fm_x_subject_id));
-        $this->startDateTime = htmlspecialchars(strip_tags($this->startDateTime));
-        $this->endDateTime = htmlspecialchars(strip_tags($this->endDateTime));
+        $this->start_date_time = htmlspecialchars(strip_tags($this->start_date_time));
+        $this->end_date_time = htmlspecialchars(strip_tags($this->end_date_time));
         $this->event_password = htmlspecialchars(strip_tags($this->event_password));
 
         // Bind data
         $statement->bindParam(":fm_x_subject_id", $this->fm_x_subject_id);
-        $statement->bindParam(":startDateTime", $this->startDateTime);
-        $statement->bindParam(":endDateTime", $this->endDateTime);
+        $statement->bindParam(":start_date_time", $this->start_date_time);
+        $statement->bindParam(":end_date_time", $this->end_date_time);
         $statement->bindParam(":event_password", $this->event_password);
 
         // Execute query
@@ -80,15 +80,15 @@ class Event
     public function update()
     {
         // Update query
-        $query = "UPDATE " . $this->table_name . " SET fm_x_subject_id = :fm_x_subject_id, startDateTime= :startDateTime, endDateTime= :endDateTime, event_password= :event_password  WHERE id = :id";
+        $query = "UPDATE " . $this->table_name . " SET fm_x_subject_id = :fm_x_subject_id, start_date_time= :start_date_time, end_date_time= :end_date_time, event_password= :event_password  WHERE id = :id";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
 
         // Bind data
         $statement->bindParam(":fm_x_subject_id", $this->fm_x_subject_id);
-        $statement->bindParam(":startDateTime", $this->startDateTime);
-        $statement->bindParam(":endDateTime", $this->endDateTime);
+        $statement->bindParam(":start_date_time", $this->start_date_time);
+        $statement->bindParam(":end_date_time", $this->end_date_time);
         $statement->bindParam(":event_password", $this->event_password);
 
         // Execute query
@@ -100,7 +100,7 @@ class Event
     }
 
 
-    // Method to delete a faculty member
+    // Method to delete an event
     public function delete()
     {
         // Delete query
