@@ -56,11 +56,14 @@ class Event
         return false;
     }
 
-    // Method to get all events data
-    public function getAllEvents()
-    {
-        // Select query
-        $query = "SELECT * FROM " . $this->table_name;
+    // Method to get all events with subject names and faculty member names
+    public function getAllEvents() {
+        // SQL query to join the tables and get all required data
+        $query = "SELECT e.*, s.name AS subject_name, u.names AS faculty_member_name FROM " . $this->table_name . " e
+                  JOIN fm_x_subject fmx ON e.fm_x_subject_id = fmx.id
+                  JOIN subjects s ON fmx.subject_id = s.id
+                  JOIN faculty_members fm ON fmx.fm_id = fm.fm_id
+                  JOIN users u ON fm.user_id = u.id";
 
         // Prepare query statement
         $statement = $this->connection->prepare($query);
@@ -68,14 +71,9 @@ class Event
         // Execute query
         try {
             $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error getting all events : " . $e->getMessage();
-            return null;
-        }
-
-        if ($statement->rowCount() > 0) {
-            return $statement->fetch(PDO::FETCH_ASSOC);;
-        } else {
+            echo "Error getting all events: " . $e->getMessage();
             return null;
         }
     }
