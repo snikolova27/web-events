@@ -1,6 +1,6 @@
 <?php
 
-class EventComment
+class EventResource
 {
     // Database connectionection
     private $connection;
