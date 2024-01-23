@@ -86,6 +86,25 @@ $currentStudent = $student->getStudentByUserId($userId)
     <p>Led by: <?php echo $eventDetails['faculty_member_name']; ?></p>
 
 
+    <?php
+    // Check if the user is a student to display the "Sign up for event" button
+    if ($currentStudent) {
+    ?>
+    <hr>
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <h2>Event Sign Up</h2>
+                <p>Enter the event password to sign up:</p>
+                <input type="password" id="eventPassword" placeholder="Event Password" data-eventid="<?php $eventId ?>">
+                <button onclick="submitSignUp()" class="common-button">Sign up for event</button>
+                <p id="signupMessage"></p>
+            </div>
+        </div>
+        <hr>
+    <?php
+    }
+    ?>
+
     <h3>Comments</h3>
     <?php if ($comments) : ?>
         <ul>
@@ -120,23 +139,7 @@ $currentStudent = $student->getStudentByUserId($userId)
     <?php endif; ?>
 
 
-    <?php
-    // Check if the user is a student to display the "Sign up for event" button
-    if ($currentStudent) {
-    ?>
-    <hr>
-        <div id="signupModal" class="modal">
-            <div class="modal-content">
-                <h2>Event Sign Up</h2>
-                <p>Enter the event password to sign up:</p>
-                <input type="password" id="eventPassword" placeholder="Event Password" data-eventid="<?php $eventId ?>">
-                <button onclick="submitSignUp()" class="common-button">Sign up for event</button>
-                <p id="signupMessage"></p>
-            </div>
-        </div>
-    <?php
-    }
-    ?>
+  
     <script>
         // Get the modal
         var modal = document.getElementById('signupModal');
