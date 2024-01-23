@@ -47,7 +47,7 @@ class User
         $this->names = htmlspecialchars(strip_tags($this->names));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password =  password_hash(htmlspecialchars(strip_tags($this->password)),  PASSWORD_BCRYPT);
-        $this->is_admin = htmlspecialchars(strip_tags(1));
+        $this->is_admin = htmlspecialchars(strip_tags($this->is_admin));
 
         // Bind data
         $statement->bindParam(":names", $this->names);
