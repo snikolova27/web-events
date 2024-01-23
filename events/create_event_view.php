@@ -66,7 +66,7 @@
       <label for="event_password">Event password:</label>
       <input type="text" id="event_password" name="event_password" required />
       <input type="submit" class="register" value="Create event" />
-      <a href="../index.html" class="common-button">Back to home</a>
+      <a href="../home/home.php" class="common-button">Back to home</a>
     </form>
   </body>
 </html>

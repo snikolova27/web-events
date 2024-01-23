@@ -114,4 +114,20 @@ class Student
 
         return false;
     }
+
+    public function getStudentByUserId($userId) {
+        $query = "SELECT * FROM " . $this->table_name ." WHERE user_id = :user_id LIMIT 1";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":user_id", $userId);
+
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting student by user ID: " . $e->getMessage();
+            return null;
+        }
+    }
+
 }

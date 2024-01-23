@@ -39,7 +39,6 @@ $attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
 
 <body>
     <h1> Attendances </h1>
-    <p>User ID: <?php echo $userId; ?></p>
     <?php
     // Check if there are subjects
     if ($attendanceInformation) {

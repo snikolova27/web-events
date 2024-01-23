@@ -158,6 +158,33 @@ class Event
         }
     }
 
+    public function getEventByIdAndPassword($eventId, $password)
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id and event_password= :event_password";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameter
+        $statement->bindParam(':id', $eventId);
+        // Bind parameter
+        $statement->bindParam(':event_password', $password);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error while getting event by id and password: " . $e->getMessage();
+            return null;
+        }
+    }
 
     // Method to delete an event
     public function delete()

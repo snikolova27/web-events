@@ -50,7 +50,6 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
 
 <body>
     <h1> Subjects </h1>
-    <p>User ID: <?php echo $userId; ?></p>
     <div class="horizontal-menu">
         <a href="../home/home.php" class="common-button">Back to home</a>
         <?php

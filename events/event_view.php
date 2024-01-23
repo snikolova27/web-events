@@ -5,7 +5,20 @@ require_once("event.php");
 require_once("../event-comments/event-comments.php");
 require_once("../event-recordings/event-recordings.php");
 require_once("../event-resources/event-resources.php");
+require_once("../user/user.php");
+require_once("../student/student.php");
 
+session_start();
+
+// Check if the user is authenticated (has a valid session)
+if (!isset($_SESSION['user_token'])) {
+    // Redirect to the sign-in page if not authenticated
+    header("Location: ../signin/signin.php");
+    exit();
+}
+
+// Access the user's ID if needed
+$userId = $_SESSION['user_id'];
 
 // Get event ID from the query parameters
 $eventId = isset($_GET['event_id']) ? $_GET['event_id'] : null;
@@ -43,6 +56,11 @@ $resources = $eventResources->getAllResourceLinksForEvent($eventId);
 
 // Get approved recordings for the event
 $approvedLinks = $eventRecordings->getApprovedEventRecordingsByEventId($eventId);
+
+
+$student = new Student($connection);
+$currentStudent = $student->getStudentByUserId($userId)
+
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +75,9 @@ $approvedLinks = $eventRecordings->getApprovedEventRecordingsByEventId($eventId)
 
 <body>
     <h1>Event Details</h1>
+    <div class="horizontal-menu">
+        <p><a href="events.php" class="common-button">Back to Events</a></p>
+    </div>
 
     <h2><?php echo "{$eventDetails['event_name']}" ?></h2>
     <p>Start Date: <?php echo "{$eventDetails['start_date_time']}" ?></p>
@@ -98,7 +119,70 @@ $approvedLinks = $eventRecordings->getApprovedEventRecordingsByEventId($eventId)
         <p>No resources for this event.</p>
     <?php endif; ?>
 
-    <p><a href="events.php" class="common-button">Back to Events</a></p>
+
+    <?php
+    // Check if the user is a student to display the "Sign up for event" button
+    if ($currentStudent) {
+    ?>
+    <hr>
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <h2>Event Sign Up</h2>
+                <p>Enter the event password to sign up:</p>
+                <input type="password" id="eventPassword" placeholder="Event Password" data-eventid="<?php $eventId ?>">
+                <button onclick="submitSignUp()" class="common-button">Sign up for event</button>
+                <p id="signupMessage"></p>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('signupModal');
+
+        // Function to open the modal
+        function openModal(eventId) {
+            modal.style.display = "block";
+            // Pass the event ID to the modal for further processing
+            document.getElementById("eventPassword").setAttribute("data-eventid", eventId);
+        }
+
+        // Function to reset modal fields
+        function resetModal() {
+            document.getElementById("eventPassword").value = "";
+            document.getElementById("signupMessage").innerText = "";
+        }
+
+        // Function to handle event sign-up
+        function submitSignUp() {
+            var eventId = document.getElementById("eventPassword").getAttribute("data-eventid");
+            var eventPassword = document.getElementById("eventPassword").value;
+
+            // Perform AJAX request to validate event password and sign up
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Handle the response from the server
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById("signupMessage").innerText = response.message;
+                }
+            };
+            xhr.open("POST", "process_event_signup.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("eventId=" + eventId + "&eventPassword=" + eventPassword);
+        }
+
+        // Trigger the modal to open automatically when the page loads
+        window.onload = function() {
+            <?php
+            // Echo the PHP variable $eventId into a JavaScript variable
+            echo "var phpEventId = " . json_encode($eventId) . ";";
+            ?>
+            // Open the modal with the PHP variable $eventId
+            openModal(phpEventId);
+        };
+    </script>
 </body>
 
 </html>
