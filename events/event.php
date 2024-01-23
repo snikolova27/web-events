@@ -16,7 +16,7 @@ class Event
     public $end_date_time;
 
     public $event_password;
-    
+
     public $event_name;
 
     // Constructor with DB connectionection
@@ -57,7 +57,8 @@ class Event
     }
 
     // Method to get all events with subject names and faculty member names
-    public function getAllEvents() {
+    public function getAllEvents()
+    {
         // SQL query to join the tables and get all required data
         $query = "SELECT e.*, s.name AS subject_name, u.names AS faculty_member_name FROM " . $this->table_name . " e
                   JOIN fm_x_subject fmx ON e.fm_x_subject_id = fmx.id
@@ -74,6 +75,33 @@ class Event
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error getting all events: " . $e->getMessage();
+            return null;
+        }
+    }
+
+    // Method to get event details with subject names and faculty member names
+    public function getEventDetailsById($eventId)
+    {
+        // SQL query to join the tables and get all required data
+        $query = "SELECT e.*, s.name AS subject_name, u.names AS faculty_member_name FROM " . $this->table_name . " e
+                      JOIN fm_x_subject fmx ON e.fm_x_subject_id = fmx.id
+                      JOIN subjects s ON fmx.subject_id = s.id
+                      JOIN faculty_members fm ON fmx.fm_id = fm.fm_id
+                      JOIN users u ON fm.user_id = u.id
+                      WHERE e.id=:id";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Clean data and bind value
+        $statement->bindParam(":id", $eventId);
+
+        // Execute query
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting details about event: " . $e->getMessage();
             return null;
         }
     }
@@ -101,6 +129,33 @@ class Event
         }
 
         return false;
+    }
+
+    // Method to get event data by id
+    public function getEventById($eventId)
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameter
+        $statement->bindParam(':id', $eventId);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
+        }
     }
 
 

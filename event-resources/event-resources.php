@@ -44,34 +44,6 @@ class EventResource
         return false;
     }
 
-    // Method to get all resouce links for event
-    public function getAllResourceLinksForEvent($eventId)
-    {
-        // Select query
-        $query = "SELECT * FROM " . $this->table_name . "WHERE event_id=: event_id";
-
-
-        // Prepare query statement
-        $statement = $this->connection->prepare($query);
-
-        // Bind parameter
-        $statement->bindParam(':event_id', $eventId);
-
-        // Execute query
-        try {
-            $statement->execute();
-        } catch (PDOException $e) {
-            echo "Error getting all resource links for event : " . $e->getMessage();
-            return null;
-        }
-
-        if ($statement->rowCount() > 0) {
-            return $statement->fetch(PDO::FETCH_ASSOC);;
-        } else {
-            return null;
-        }
-    }
-
     // Method to update a resource link for an evenet
     public function update()
     {
@@ -113,4 +85,27 @@ class EventResource
 
         return false;
     }
+
+  
+  // Method to get all resource links for an event
+  public function getAllResourceLinksForEvent($eventId)
+  {
+      // Select query
+      $query = "SELECT * FROM " . $this->table_name . " WHERE event_id=:event_id";
+
+      // Prepare query statement
+      $statement = $this->connection->prepare($query);
+
+      // Bind parameter
+      $statement->bindParam(':event_id', $eventId);
+
+      // Execute query
+      try {
+          $statement->execute();
+          return $statement->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $e) {
+          echo "Error getting all resource links for event: " . $e->getMessage();
+          return null;
+      }
+  }
 }

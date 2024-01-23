@@ -49,10 +49,10 @@ class EventComment
     }
 
     // Method to get all comments for an event
-    public function getAllommentsForEvent($eventId)
+    public function getAllCommentsForEvent($eventId)
     {
         // Select query
-        $query = "SELECT * FROM " . $this->table_name . "WHERE event_id=: event_id";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE event_id=:event_id";
 
 
         // Prepare query statement
@@ -64,14 +64,9 @@ class EventComment
         // Execute query
         try {
             $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error getting all comments for event : " . $e->getMessage();
-            return null;
-        }
-
-        if ($statement->rowCount() > 0) {
-            return $statement->fetch(PDO::FETCH_ASSOC);;
-        } else {
+            echo "Error getting all comments for event: " . $e->getMessage();
             return null;
         }
     }

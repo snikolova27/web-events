@@ -48,8 +48,8 @@ class EventRecording
         return false;
     }
 
-    // Method to get all links for event
-    public function getAllLinksForEvent($eventId)
+    // Method to get all recordings for event
+    public function getAllRecordingsForEvent($eventId)
     {
         // Select query
         $query = "SELECT * FROM " . $this->table_name . "WHERE event_id=: event_id";
@@ -65,7 +65,7 @@ class EventRecording
         try {
             $statement->execute();
         } catch (PDOException $e) {
-            echo "Error getting all links for event : " . $e->getMessage();
+            echo "Error getting all recordings for event : " . $e->getMessage();
             return null;
         }
 
@@ -98,6 +98,32 @@ class EventRecording
         return false;
     }
 
+    // Method to get approved event recordings by event_id
+    public function getApprovedEventRecordingsByEventId($eventId)
+    {
+        // Select query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE event_id =:event_id and is_approved=1";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind parameter
+        $statement->bindParam(':event_id', $eventId);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // Return the user data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
+        }
+    }
 
     // Method to delete a link for an event
     public function delete()

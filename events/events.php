@@ -82,8 +82,7 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
                     foreach ($events as $event) {
                         echo "<tr>";
                         echo "<td>{$event['id']}</td>";
-                        echo "<td>{$event['event_name']}</td>";
-                        echo "<td>{$event['subject_name']}</td>";
+                        echo "<td><a href=event_view.php?event_id={$event['id']}>{$event['event_name']}</a></td>";                        echo "<td>{$event['subject_name']}</td>";
                         echo "<td>{$event['faculty_member_name']}</td>";
                         echo "<td>{$event['start_date_time']}</td>";
                         echo "<td>{$event['end_date_time']}</td>";
