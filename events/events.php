@@ -70,7 +70,7 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
                         <th>ID</th>
                         <th>Event Name</th>
                         <th>Subject Name</th>
-                        <th>Facylty Member Name</th>
+                        <th>Led by</th>
                         <th>Start Date Time</th>
                         <th>End Date Time</th>
                     </tr>

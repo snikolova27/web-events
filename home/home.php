@@ -3,6 +3,8 @@
 require_once("../db/db.php");
 require_once("../user/user.php");
 require_once("../faculty-member/faculty-member.php");
+require_once("../student/student.php");
+
 session_start();
 
 // Check if the user is authenticated (has a valid session)
@@ -26,7 +28,10 @@ $user = new User($connection);
 $currentUser = $user->getUserById($userId);
 
 $facultyMember = new FacultyMember($connection);
-$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
+$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId);
+
+$student = new Student($connection);
+$currentStudent = $student->getStudentByUserId($userId);
 
 ?>
 
@@ -49,16 +54,24 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
     <?php
     // Check if the user is an admin to display the "Create Subject" button
     if ($currentUser['is_admin'] === 1) {
-      ?>
+    ?>
       <a href="../subjects/create_subject.html" class="common-button">Create subject</a>
       <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject</a>
     <?php
     }
     ?>
-     <?php
+    <?php
+    // Check if the user is a student to display the "My attendances" button
+    if ($currentStudent) {
+    ?>
+      <a href="../attendance/my_attendances.php" class="common-button">My attendances</a>
+    <?php
+    }
+    ?>
+    <?php
     // Check if the user is a faculty member or an adminto display the Attendances" button
     if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
-      ?>
+    ?>
       <a href="../events/create_event_view.php" class="common-button">Create an event</a>
       <a href="../attendance/attendances_page.php" class="common-button">Attendances</a>
     <?php

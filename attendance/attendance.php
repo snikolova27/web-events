@@ -118,7 +118,25 @@ class Attendance
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Error getting attendace entries for faculty number : " . $e->getMessage();
+            echo "Error getting attendace entries for student : " . $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getEventsWithDetailsForFn($facultyNumber)
+    {
+        $query = "SELECT * FROM attendances
+        JOIN events on attendances.event_id = events.id  
+        WHERE attendances.fn = :fn";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":fn", $facultyNumber);
+
+        try {
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting attendace entries for student  : " . $e->getMessage();
             return null;
         }
     }
