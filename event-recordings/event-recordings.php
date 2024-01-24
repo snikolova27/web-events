@@ -144,4 +144,29 @@ class EventRecording
 
         return false;
     }
+
+    public function addRecordingToEvent($eventId, $recording) {
+        // Insert query
+        $query = "INSERT INTO " . $this->table_name . " (event_id, link, is_approved) VALUES (:event_id, :link, :is_approved)";
+    
+        // Prepare query
+        $statement = $this->connection->prepare($query);
+    
+        // Clean data
+        $cleanEventId = htmlspecialchars(strip_tags($eventId));
+        $cleanRecordingLink = htmlspecialchars(strip_tags($recording));
+        $cleanIsApproved = 0; // false by default
+    
+        // Bind data
+        $statement->bindParam(":event_id", $cleanEventId);
+        $statement->bindParam(":link", $cleanRecordingLink);
+        $statement->bindParam(":is_approved", $cleanIsApproved);
+    
+        // Execute query
+        if ($statement->execute()) {
+            return true;
+        }
+    
+        return false;
+        }
 }
