@@ -110,9 +110,9 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
 
     <h3>Comments</h3>
     <?php if ($comments) : ?>
-        <ul>
+        <ul id= "commentsList">
             <?php foreach ($comments as $comment) : ?>
-                <li><?php echo $comment['comment']; ?></li>
+                <li><?php echo $comment['comment'], ' ', $comment['review']; ?></li>
             <?php endforeach; ?>
         </ul>
 
@@ -121,7 +121,12 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <?php endif; ?>
     <?php if ($didCurrentStudentAttendEvent) {
     ?>
-        <button class="common-button">Add comment</button>
+        <button class="common-button" onclick="toggleInput('comment')">Add comment</button>
+        <div id="commentInput" style="display:none;">
+            <input type="text" id="commentText" placeholder="Write a comment">
+            <input type="number" id="commentReview" placeholder="What is your review (1-5)">
+            <button class="common-button" onclick="submitComment()">Submit</button>
+        </div>
     <?php
     }
     ?>
@@ -130,7 +135,7 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <?php if ($approvedLinks) : ?>
         <ul>
             <?php foreach ($approvedLinks as $approvedLink) : ?>
-                <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link_title']; ?></a></li>
+                <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link']; ?></a></li>
             <?php endforeach; ?>
         </ul>
 
@@ -139,17 +144,21 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <?php endif; ?>
     <?php if ($didCurrentStudentAttendEvent) {
     ?>
-        <button class="common-button">Add link to event recordings</button>
+        <button class="common-button" onclick="toggleInput('recording')">Add link to event recordings</button>
+        <div id="recordingInput" style="display:none;">
+            <input type="text" id="recording" placeholder="Paste your link to the recording">
+            <button class="common-button" onclick="submitRecording()">Submit</button>
+        </div>
     <?php
     }
     ?>
 
     <h3>Resources</h3>
     <?php if ($resources) : ?>
-        <ul>
+        <ul id="resourcesList">
             <?php foreach ($resources as $resource) : ?>
-                <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link_title']; ?></a></li>
-                <?php endforeach; ?>resource
+                <li><a href="<?php echo $resource['link']; ?>" target="_blank"><?php echo $resource['link']; ?></a></li>
+                <?php endforeach; ?>
         </ul>
 
     <?php else : ?>
@@ -157,7 +166,11 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <?php endif; ?>
     <?php if ($didCurrentStudentAttendEvent) {
     ?>
-        <button class="common-button">Add link to resource</button>
+        <button class="common-button" onclick="toggleInput('resource')">Add link to resource</button>
+        <div id="resourceInput" style="display:none;">
+            <input type="text" id="link" placeholder="Paste your resource">
+            <button class="common-button" onclick="submitResource()">Submit</button>
+        </div>
     <?php
     }
     ?>
@@ -198,6 +211,144 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
             xhr.open("POST", "process_event_signup.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("eventId=" + eventId + "&eventPassword=" + eventPassword);
+        }
+
+        // Function to toggle input fields
+        function toggleInput(type) {
+            document.getElementById(type + 'Input').style.display = 'block';
+        }
+
+        // Function to submit a comment
+        function submitComment() {
+            var commentText = document.getElementById('commentText').value;
+            var commentReview = document.getElementById('commentReview').value;
+            var eventId = <?php echo json_encode($eventId); ?>;
+            
+            // Validate that the comment is not empty
+            if (commentText.trim() === '') {
+                alert('Please enter a comment.');
+                return;
+            }
+
+             // AJAX request to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../event-comments/add-comment.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                // Check if the request was successful
+                if (xhr.status >= 200 && xhr.status < 300) {
+
+                    // Hide the input field
+                    document.getElementById('commentInput').style.display = 'none';
+                        
+                    // Reset the input field
+                    document.getElementById('commentText').value = '';
+                    document.getElementById('commentReview').value = '';
+
+                    // Optionally, update the UI to show the new comment
+                    // This could be adding the new comment to a list of comments, for example
+                    var commentsList = document.getElementById('commentsList'); // Assuming you have an element with this ID
+                    var newComment = document.createElement('li');
+                    newComment.textContent = commentText + ' ' + commentReview;
+                    commentsList.appendChild(newComment);
+                } else {
+                    // Handle request errors here (e.g., network issues)
+                    alert('Failed to send request to the server.' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                // Handle network errors
+                alert('Network error occurred while sending request.');
+            };
+
+            // Send the request with the comment data
+            xhr.send('comment=' + encodeURIComponent(commentText) + '&review=' + encodeURIComponent(commentReview) + '&event_id=' + encodeURIComponent(eventId));
+        }
+
+        // Function to submit a resource
+        function submitResource() {
+            var resourceLink = document.getElementById('link').value;
+            var eventId = <?php echo json_encode($eventId); ?>;
+            
+            // Validate that the comment is not empty
+            if (resourceLink.trim() === '') {
+                alert('Please enter a resource link.');
+                return;
+            }
+
+             // AJAX request to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../event-resources/add-resource.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                // Check if the request was successful
+                if (xhr.status >= 200 && xhr.status < 300) {
+
+                    // Hide the input field
+                    document.getElementById('resourceInput').style.display = 'none';
+                        
+                    // Reset the input field
+                    document.getElementById('link').value = '';
+
+                    // Optionally, update the UI to show the new comment
+                    // This could be adding the new comment to a list of comments, for example
+                    var resourcesList = document.getElementById('resourcesList'); // Assuming you have an element with this ID
+                    var newResource = document.createElement('li');
+                    var link = document.createElement('a'); // Create an anchor element
+                    link.href = resourceLink; // Set the href attribute to your resourceLink
+                    link.textContent = resourceLink; // Set the text content to display the link
+                    newResource.appendChild(link); // Append the anchor element to the list item
+                    resourcesList.appendChild(newResource); // Append the list item to the list
+                } else {
+                    // Handle request errors here (e.g., network issues)
+                    alert('Failed to send request to the server.' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                // Handle network errors
+                alert('Network error occurred while sending request.');
+            };
+
+            // Send the request with the comment data
+            xhr.send('link=' + encodeURIComponent(resourceLink) + '&event_id=' + encodeURIComponent(eventId));
+        }
+
+        // Function to submit a recording link
+        function submitRecording() {
+            var recordingLink = document.getElementById('recording').value;
+            var eventId = <?php echo json_encode($eventId); ?>;
+            
+            // Validate that the comment is not empty
+            if (recordingLink.trim() === '') {
+                alert('Please enter a recording link.');
+                return;
+            }
+
+             // AJAX request to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../event-recordings/add-recording.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                // Check if the request was successful
+                if (xhr.status >= 200 && xhr.status < 300) {
+
+                    // Hide the input field
+                    document.getElementById('recordingInput').style.display = 'none';
+                        
+                    // Reset the input field
+                    document.getElementById('recording').value = '';
+                } else {
+                    // Handle request errors here (e.g., network issues)
+                    alert('Failed to send request to the server.' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                // Handle network errors
+                alert('Network error occurred while sending request.');
+            };
+
+            // Send the request with the comment data
+            xhr.send('recording=' + encodeURIComponent(recordingLink) + '&event_id=' + encodeURIComponent(eventId));
         }
 
         // Trigger the modal to open automatically when the page loads
