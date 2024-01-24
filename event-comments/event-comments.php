@@ -113,4 +113,29 @@ class EventComment
 
         return false;
     }
+
+    public function addCommentToEvent($eventId, $commentText, $review) {
+        // Insert query
+        $query = "INSERT INTO " . $this->table_name . " (event_id, comment, review) VALUES (:event_id, :comment, :review)";
+
+        // Prepare query
+        $statement = $this->connection->prepare($query);
+
+        // Clean data
+        $cleanEventId = htmlspecialchars(strip_tags($eventId));
+        $cleanComment = htmlspecialchars(strip_tags($commentText));
+        $cleanReview = htmlspecialchars(strip_tags($review)); // Hardcoded review value
+
+        // Bind data
+        $statement->bindParam(":event_id", $cleanEventId);
+        $statement->bindParam(":comment", $cleanComment);
+        $statement->bindParam(":review", $cleanReview);
+
+        // Execute query
+        if ($statement->execute()) {
+            return true;
+        }
+
+        return false;
+    }
 }
