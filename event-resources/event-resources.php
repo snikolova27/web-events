@@ -108,4 +108,27 @@ class EventResource
           return null;
       }
   }
+
+  public function addResourceToEvent($eventId, $link) {
+    // Insert query
+    $query = "INSERT INTO " . $this->table_name . " (event_id, link) VALUES (:event_id, :link)";
+
+    // Prepare query
+    $statement = $this->connection->prepare($query);
+
+    // Clean data
+    $cleanEventId = htmlspecialchars(strip_tags($eventId));
+    $cleanLink = htmlspecialchars(strip_tags($link));
+
+    // Bind data
+    $statement->bindParam(":event_id", $cleanEventId);
+    $statement->bindParam(":link", $cleanLink);
+
+    // Execute query
+    if ($statement->execute()) {
+        return true;
+    }
+
+    return false;
+    }
 }
