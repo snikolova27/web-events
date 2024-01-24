@@ -53,55 +53,56 @@ $attendance = new Attendance($connection);
 
 <body>
     <h1> Events </h1>
-        <div class="horizontal-menu">
-            <a href="../home/home.php" class="common-button">Back to home</a>
-            <?php
-            // Check if the user is a faculty member or an admin to display the button for creation of an event
-            if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
-            ?>
-                <a href="create_event_view.php" class="common-button">Create an event</a>
-            <?php
-            }
-            ?>
-        </div>
+    <div class="horizontal-menu">
+        <a href="../home/home.php" class="common-button">Back to home</a>
         <?php
-        // Check if there are events
-        if ($events) {
+        // Check if the user is a faculty member or an admin to display the button for creation of an event
+        if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
         ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Event Name</th>
-                        <th>Subject Name</th>
-                        <th>Led by</th>
-                        <th>Start Date Time</th>
-                        <th>End Date Time</th>
-                        <th>Attendees count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Display the subjects in the table
-                    foreach ($events as $event) {
-                        echo "<tr>";
-                        echo "<td>{$event['id']}</td>";
-                        echo "<td><a href=event_view.php?event_id={$event['id']}>{$event['event_name']}</a></td>";                        echo "<td>{$event['subject_name']}</td>";
-                        echo "<td>{$event['faculty_member_name']}</td>";
-                        echo "<td>{$event['start_date_time']}</td>";
-                        echo "<td>{$event['end_date_time']}</td>";
-                        echo "<td>{$attendance ->getAttendancesByEventId($event['id'])}</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+            <a href="create_event_view.php" class="common-button">Create an event</a>
         <?php
-        } else {
-            // Display message when no events are available
-            echo '<p class="no-results">No events available.</p>';
         }
         ?>
+    </div>
+    <?php
+    // Check if there are events
+    if ($events) {
+    ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Event Name</th>
+                    <th>Subject Name</th>
+                    <th>Led by</th>
+                    <th>Start Date Time</th>
+                    <th>End Date Time</th>
+                    <th>Attendees count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Display the subjects in the table
+                foreach ($events as $event) {
+                    echo "<tr>";
+                    echo "<td>{$event['id']}</td>";
+                    echo "<td><a href=event_view.php?event_id={$event['id']}>{$event['event_name']}</a></td>";
+                    echo "<td>{$event['subject_name']}</td>";
+                    echo "<td>{$event['faculty_member_name']}</td>";
+                    echo "<td>{$event['start_date_time']}</td>";
+                    echo "<td>{$event['end_date_time']}</td>";
+                    echo "<td>{$attendance->getAttendancesByEventId($event['id'])}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    <?php
+    } else {
+        // Display message when no events are available
+        echo '<p class="no-results">No events available.</p>';
+    }
+    ?>
 </body>
 
 </html>

@@ -130,7 +130,7 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <?php if ($approvedLinks) : ?>
         <ul>
             <?php foreach ($approvedLinks as $approvedLink) : ?>
-                <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link_title']; ?></a></li>
+                <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link']; ?></a></li>
             <?php endforeach; ?>
         </ul>
 
