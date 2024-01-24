@@ -4,6 +4,8 @@ require_once("../db/db.php");
 require_once("../user/user.php");
 require_once("../faculty-member/faculty-member.php");
 require_once("event.php");
+require_once("../attendance/attendance.php");
+
 session_start();
 
 // Check if the user is authenticated (has a valid session)
@@ -33,7 +35,9 @@ $events = $event->getAllEvents();
 $currentUser = $user->getUserById($userId);
 
 $facultyMember = new FacultyMember($connection);
-$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
+$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId);
+
+$attendance = new Attendance($connection);
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +77,7 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
                         <th>Led by</th>
                         <th>Start Date Time</th>
                         <th>End Date Time</th>
+                        <th>Attendees count</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,6 +90,7 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
                         echo "<td>{$event['faculty_member_name']}</td>";
                         echo "<td>{$event['start_date_time']}</td>";
                         echo "<td>{$event['end_date_time']}</td>";
+                        echo "<td>{$attendance ->getAttendancesByEventId($event['id'])}</td>";
                         echo "</tr>";
                     }
                     ?>

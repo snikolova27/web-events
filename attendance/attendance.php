@@ -123,6 +123,23 @@ class Attendance
         }
     }
 
+    public function getAttendancesByEventId($eventId)
+    {
+        $query = "SELECT COUNT(*) as attendance_count FROM " . $this->table_name . " WHERE event_id = :event_id";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":event_id", $eventId);
+
+        try {
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return ($result !== false) ? (int)$result['attendance_count'] : 0;
+        } catch (PDOException $e) {
+            echo "Error getting attendace entries for event : " . $e->getMessage();
+            return null;
+        }
+    }
+
     public function getEventsWithDetailsForFn($facultyNumber)
     {
         $query = "SELECT * FROM attendances
