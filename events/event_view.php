@@ -63,7 +63,8 @@ $student = new Student($connection);
 $currentStudent = $student->getStudentByUserId($userId);
 
 $attendance = new Attendance($connection);
-$didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId, $currentStudent['fn']);
+$currentFn = $currentStudent ? $currentStudent['fn'] : null;
+$didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId,$currentFn);
 ?>
 
 <!DOCTYPE html>

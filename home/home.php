@@ -56,7 +56,8 @@ $currentStudent = $student->getStudentByUserId($userId);
     if ($currentUser['is_admin'] === 1) {
     ?>
       <a href="../subjects/create_subject.html" class="common-button">Create subject</a>
-      <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject</a>
+      <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject </a>
+      <a href="../event-recordings/event_recordings_approval_page.php" class="common-button">Event recordings awaiting approval</a>
     <?php
     }
     ?>

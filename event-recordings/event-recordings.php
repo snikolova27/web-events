@@ -98,6 +98,29 @@ class EventRecording
         return false;
     }
 
+    // Method to approve a link for an event
+    public function approveLinkForEvent($link, $eventId)
+    {
+        // Update query
+        $query = "UPDATE " . $this->table_name . " SET is_approved= 1 
+        WHERE event_id= :event_id AND link= :link ";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Bind data
+        $statement->bindParam(":event_id", $eventId);
+        $statement->bindParam(":link", $link);
+
+        // Execute query
+        if ($statement->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     // Method to get approved event recordings by event_id
     public function getApprovedEventRecordingsByEventId($eventId)
     {
@@ -117,7 +140,36 @@ class EventRecording
             // Fetch the result
             $row = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            // Return the user data
+            // Return the recordings data
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
+        }
+    }
+    // Method to get approved event recordings 
+    public function getNotApprovedEventRecordingsdWithDetails()
+    {
+        // Select query
+        $query = "SELECT * FROM  event_recordings
+        JOIN events on events.id = event_recordings.event_id
+        JOIN fm_x_subject fmx ON events.fm_x_subject_id = fmx.id
+        JOIN subjects s ON fmx.subject_id = s.id
+        JOIN faculty_members fm ON fmx.fm_id = fm.fm_id
+        JOIN users u ON fm.user_id = u.id
+        WHERE is_approved=0";
+
+        // Prepare query statement
+        $statement = $this->connection->prepare($query);
+
+        // Execute query
+        try {
+            $statement->execute();
+
+            // Fetch the result
+            $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // Return the recordings data
             return $row;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
