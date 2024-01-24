@@ -7,6 +7,7 @@ require_once("../event-recordings/event-recordings.php");
 require_once("../event-resources/event-resources.php");
 require_once("../user/user.php");
 require_once("../student/student.php");
+require_once("../attendance/attendance.php");
 
 session_start();
 
@@ -59,8 +60,10 @@ $approvedLinks = $eventRecordings->getApprovedEventRecordingsByEventId($eventId)
 
 
 $student = new Student($connection);
-$currentStudent = $student->getStudentByUserId($userId)
+$currentStudent = $student->getStudentByUserId($userId);
 
+$attendance = new Attendance($connection);
+$didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId, $currentStudent['fn']);
 ?>
 
 <!DOCTYPE html>
@@ -88,9 +91,9 @@ $currentStudent = $student->getStudentByUserId($userId)
 
     <?php
     // Check if the user is a student to display the "Sign up for event" button
-    if ($currentStudent) {
+    if ($currentStudent && !$didCurrentStudentAttendEvent) {
     ?>
-    <hr>
+        <hr>
         <div id="signupModal" class="modal">
             <div class="modal-content">
                 <h2>Event Sign Up</h2>
@@ -112,9 +115,16 @@ $currentStudent = $student->getStudentByUserId($userId)
                 <li><?php echo $comment['comment']; ?></li>
             <?php endforeach; ?>
         </ul>
+
     <?php else : ?>
         <p>No comments for this event.</p>
     <?php endif; ?>
+    <?php if ($didCurrentStudentAttendEvent) {
+    ?>
+        <button class="common-button">Add comment</button>
+    <?php
+    }
+    ?>
 
     <h3>Event recordings</h3>
     <?php if ($approvedLinks) : ?>
@@ -123,9 +133,16 @@ $currentStudent = $student->getStudentByUserId($userId)
                 <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link_title']; ?></a></li>
             <?php endforeach; ?>
         </ul>
+
     <?php else : ?>
         <p>No recordings for this event.</p>
     <?php endif; ?>
+    <?php if ($didCurrentStudentAttendEvent) {
+    ?>
+        <button class="common-button">Add link to event recordings</button>
+    <?php
+    }
+    ?>
 
     <h3>Resources</h3>
     <?php if ($resources) : ?>
@@ -134,12 +151,19 @@ $currentStudent = $student->getStudentByUserId($userId)
                 <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link_title']; ?></a></li>
                 <?php endforeach; ?>resource
         </ul>
+
     <?php else : ?>
         <p>No resources for this event.</p>
     <?php endif; ?>
+    <?php if ($didCurrentStudentAttendEvent) {
+    ?>
+        <button class="common-button">Add link to resource</button>
+    <?php
+    }
+    ?>
 
 
-  
+
     <script>
         // Get the modal
         var modal = document.getElementById('signupModal');

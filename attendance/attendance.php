@@ -109,16 +109,33 @@ class Attendance
 
     public function getAttendancesByFn($facultyNumber)
     {
-        $query = "SELECT * FROM" . $this->table_name . "WHERE fn = :fn";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE fn = :fn";
 
         $statement = $this->connection->prepare($query);
         $statement->bindParam(":fn", $facultyNumber);
 
         try {
             $statement->execute();
-            return $statement->fetch(PDO::FETCH_ASSOC);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error getting attendace entries for faculty number : " . $e->getMessage();
+            return null;
+        }
+    }
+
+    public function getAttencersByFnAndEventId($eventId, $facultyNumber)
+    {
+        $query = "SELECT * FROM " . $this->table_name .  " WHERE fn = :fn and event_id= :event_id";
+
+        $statement = $this->connection->prepare($query);
+        $statement->bindParam(":fn", $facultyNumber);
+        $statement->bindParam(":event_id", $eventId);
+
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error getting attendace entries for faculty number and event : " . $e->getMessage();
             return null;
         }
     }
