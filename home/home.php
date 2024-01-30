@@ -60,6 +60,8 @@ $currentStudent = $student->getStudentByUserId($userId);
       <a href="../event-recordings/event_recordings_approval_page.php" class="common-button">Event recordings awaiting approval</a>
       <a href="../student/import_students.html" class="common-button">Import students</a>
       <a href="../faculty-member/import_faculty_members.html" class="common-button">Import faculty members</a>
+      <a href="../student/export_students.php" class="common-button">Export students</a>
+      <a href="../faculty-member/export_faculty_members.php" class="common-button">Export faculty members</a>
     <?php
     }
     ?>
