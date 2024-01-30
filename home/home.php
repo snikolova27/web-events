@@ -58,6 +58,8 @@ $currentStudent = $student->getStudentByUserId($userId);
       <a href="../subjects/create_subject.html" class="common-button">Create subject</a>
       <a href="../fm-x-subject/assign_subject_view.php" class="common-button">Assign subject </a>
       <a href="../event-recordings/event_recordings_approval_page.php" class="common-button">Event recordings awaiting approval</a>
+      <a href="../student/import_students.html" class="common-button">Import students</a>
+      <a href="../faculty-member/import_faculty_members.html" class="common-button">Import faculty members</a>
     <?php
     }
     ?>
@@ -70,7 +72,7 @@ $currentStudent = $student->getStudentByUserId($userId);
     }
     ?>
     <?php
-    // Check if the user is a faculty member or an adminto display the Attendances" button
+    // Check if the user is a faculty member or an admin to display the Attendances" button
     if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
     ?>
       <a href="../events/create_event_view.php" class="common-button">Create an event</a>
