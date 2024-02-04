@@ -1,22 +1,33 @@
 table {
     width: 80%;
-    margin: 20px auto;
+    margin: 40px auto;
     border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Add shadow for depth */
+    background-color: #fff; /* Ensure background is white for shadow effect */
 }
 
 th, td {
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
 th {
-    background-color: rgb(84, 146, 84);
+    background-color: #4CAF50; /* A richer green */
     color: #fff;
 }
 
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Zebra striping for rows */
+}
+
+tbody tr:hover {
+    background-color: #ddd; /* Hover effect for rows */
+}
+
 .no-results {
-    margin: 20px;
+    margin: 20px auto;
+    text-align: center; /* Center the text if no results */
     font-weight: bold;
     color: #555;
 }

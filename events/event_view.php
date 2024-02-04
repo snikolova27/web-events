@@ -79,101 +79,104 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
 </head>
 
 <body>
-    <h1>Event Details</h1>
-    <?php include_once("../navbar/navbar.php"); ?>
+    <div class="event-content">
+        <h1>Event Details</h1>
+        <?php include_once("../navbar/navbar.php"); ?>
 
-    <h2><?php echo "{$eventDetails['event_name']}" ?></h2>
-    <p>Start Date: <?php echo "{$eventDetails['start_date_time']}" ?></p>
-    <p>Start Date: <?php echo $eventDetails['end_date_time']; ?></p>
-    <p>Subject: <?php echo $eventDetails['subject_name']; ?></p>
-    <p>Led by: <?php echo $eventDetails['faculty_member_name']; ?></p>
+        <section class="event-info">
+            <h2><?php echo "{$eventDetails['event_name']}"; ?></h2>
+            <p><strong>Start Date:</strong> <?php echo "{$eventDetails['start_date_time']}"; ?></p>
+            <p><strong>End Date:</strong> <?php echo $eventDetails['end_date_time']; ?></p>
+            <p><strong>Subject:</strong> <?php echo $eventDetails['subject_name']; ?></p>
+            <p><strong>Led by:</strong> <?php echo $eventDetails['faculty_member_name']; ?></p>
+        </section>
 
-
-    <?php
-    // Check if the user is a student to display the "Sign up for event" button
-    if ($currentStudent && !$didCurrentStudentAttendEvent) {
-    ?>
-    <hr>
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <h2>Event Sign Up</h2>
-            <p>Enter the event password to sign up:</p>
-            <input type="password" id="eventPassword" placeholder="Event Password" data-eventid="<?php $eventId ?>">
-            <button onclick="submitSignUp()" class="common-button">Sign up for event</button>
-            <p id="signupMessage"></p>
+        <?php
+        // Check if the user is a student to display the "Sign up for event" button
+        if ($currentStudent && !$didCurrentStudentAttendEvent) {
+        ?>
+        <hr>
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <h2>Event Sign Up</h2>
+                <p>Enter the event password to sign up:</p>
+                <input type="password" id="eventPassword" placeholder="Event Password" data-eventid="<?php $eventId ?>">
+                <button onclick="submitSignUp()" class="common-button">Sign up for event</button>
+                <p id="signupMessage"></p>
+            </div>
         </div>
+        <hr>
+        <?php
+        }
+        ?>
+
+        <h3>Comments</h3>
+        <?php if ($comments) : ?>
+        <ul id="commentsList">
+            <?php foreach ($comments as $comment) : ?>
+            <li><?php echo $comment['comment'], ' ', $comment['review']; ?></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php else : ?>
+        <p>No comments for this event.</p>
+        <?php endif; ?>
+        <?php if ($didCurrentStudentAttendEvent) {
+        ?>
+        <button class="common-button" onclick="toggleInput('comment')">Add comment</button>
+        <div id="commentInput" style="display:none;">
+            <input type="text" id="commentText" placeholder="Write a comment">
+            <input type="number" id="commentReview" placeholder="What is your review (1-5)">
+            <button class="common-button" onclick="submitComment()">Submit</button>
+        </div>
+        <?php
+        }
+        ?>
+
+        <h3>Event recordings</h3>
+        <?php if ($approvedLinks) : ?>
+        <ul>
+            <?php foreach ($approvedLinks as $approvedLink) : ?>
+            <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link']; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php else : ?>
+        <p>No recordings for this event.</p>
+        <?php endif; ?>
+        <?php if ($didCurrentStudentAttendEvent) {
+        ?>
+        <button class="common-button" onclick="toggleInput('recording')">Add link to event recordings</button>
+        <div id="recordingInput" style="display:none;">
+            <input type="text" id="recording" placeholder="Paste your link to the recording">
+            <button class="common-button" onclick="submitRecording()">Submit</button>
+        </div>
+        <?php
+        }
+        ?>
+
+        <h3>Resources</h3>
+        <?php if ($resources) : ?>
+        <ul id="resourcesList">
+            <?php foreach ($resources as $resource) : ?>
+            <li><a href="<?php echo $resource['link']; ?>" target="_blank"><?php echo $resource['link']; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php else : ?>
+        <p>No resources for this event.</p>
+        <?php endif; ?>
+        <?php if ($didCurrentStudentAttendEvent) {
+        ?>
+        <button class="common-button" onclick="toggleInput('resource')">Add link to resource</button>
+        <div id="resourceInput" style="display:none;">
+            <input type="text" id="link" placeholder="Paste your resource">
+            <button class="common-button" onclick="submitResource()">Submit</button>
+        </div>
+        <?php
+        }
+        ?>
     </div>
-    <hr>
-    <?php
-    }
-    ?>
-
-    <h3>Comments</h3>
-    <?php if ($comments) : ?>
-    <ul id="commentsList">
-        <?php foreach ($comments as $comment) : ?>
-        <li><?php echo $comment['comment'], ' ', $comment['review']; ?></li>
-        <?php endforeach; ?>
-    </ul>
-
-    <?php else : ?>
-    <p>No comments for this event.</p>
-    <?php endif; ?>
-    <?php if ($didCurrentStudentAttendEvent) {
-    ?>
-    <button class="common-button" onclick="toggleInput('comment')">Add comment</button>
-    <div id="commentInput" style="display:none;">
-        <input type="text" id="commentText" placeholder="Write a comment">
-        <input type="number" id="commentReview" placeholder="What is your review (1-5)">
-        <button class="common-button" onclick="submitComment()">Submit</button>
-    </div>
-    <?php
-    }
-    ?>
-
-    <h3>Event recordings</h3>
-    <?php if ($approvedLinks) : ?>
-    <ul>
-        <?php foreach ($approvedLinks as $approvedLink) : ?>
-        <li><a href="<?php echo $approvedLink['link']; ?>" target="_blank"><?php echo $approvedLink['link']; ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-
-    <?php else : ?>
-    <p>No recordings for this event.</p>
-    <?php endif; ?>
-    <?php if ($didCurrentStudentAttendEvent) {
-    ?>
-    <button class="common-button" onclick="toggleInput('recording')">Add link to event recordings</button>
-    <div id="recordingInput" style="display:none;">
-        <input type="text" id="recording" placeholder="Paste your link to the recording">
-        <button class="common-button" onclick="submitRecording()">Submit</button>
-    </div>
-    <?php
-    }
-    ?>
-
-    <h3>Resources</h3>
-    <?php if ($resources) : ?>
-    <ul id="resourcesList">
-        <?php foreach ($resources as $resource) : ?>
-        <li><a href="<?php echo $resource['link']; ?>" target="_blank"><?php echo $resource['link']; ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-
-    <?php else : ?>
-    <p>No resources for this event.</p>
-    <?php endif; ?>
-    <?php if ($didCurrentStudentAttendEvent) {
-    ?>
-    <button class="common-button" onclick="toggleInput('resource')">Add link to resource</button>
-    <div id="resourceInput" style="display:none;">
-        <input type="text" id="link" placeholder="Paste your resource">
-        <button class="common-button" onclick="submitResource()">Submit</button>
-    </div>
-    <?php
-    }
-    ?>
 
 
 

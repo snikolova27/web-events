@@ -74,9 +74,9 @@
                 <?php
                 // Display the subjects in the table
                 foreach ($events as $event) {
-                    echo "<tr>";
+                    echo "<tr class='clickable-row' data-href='event_view.php?event_id={$event['id']}'>";
                     echo "<td>{$event['id']}</td>";
-                    echo "<td><a href=event_view.php?event_id={$event['id']}>{$event['event_name']}</a></td>";
+                    echo "<td>{$event['event_name']}</td>";
                     echo "<td>{$event['subject_name']}</td>";
                     echo "<td>{$event['faculty_member_name']}</td>";
                     echo "<td>{$event['start_date_time']}</td>";
@@ -93,6 +93,17 @@
         echo '<p class="no-results">No events available.</p>';
     }
     ?>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll("tr.clickable-row");
+            rows.forEach(row => {
+                row.addEventListener("click", function() {
+                    window.location.href = this.dataset.href;
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

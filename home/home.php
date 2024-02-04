@@ -50,7 +50,7 @@ $currentStudent = $student->getStudentByUserId($userId);
 <body>
   <h1>Welcome to Web events</h1>
   <?php include_once("../navbar/navbar.php"); ?>
-  <div class="content">
+  <div class="home-content">
     <p>Welcome to Web Events, the ultimate platform for managing and attending academic events! Here, you can browse upcoming events, sign up for ones that interest you, and even access recordings of past events. Faculty members can create and manage their events. Dive into our rich database of subjects, attendances, and educational resources tailored just for you. Get started by exploring our events or managing your attendances today!</p>
   </div>
 
