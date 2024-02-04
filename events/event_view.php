@@ -209,6 +209,9 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
                 // Handle the response from the server
                 var response = JSON.parse(xhr.responseText);
                 document.getElementById("signupMessage").innerText = response.message;
+                if (response.message === "Sign up successful!") {
+                    window.location.reload();
+                }
             }
         };
         xhr.open("POST", "process_event_signup.php", true);
@@ -268,6 +271,8 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
         // Send the request with the comment data
         xhr.send('comment=' + encodeURIComponent(commentText) + '&review=' + encodeURIComponent(commentReview) +
             '&event_id=' + encodeURIComponent(eventId));
+
+        window.location.reload();
     }
 
     // Function to submit a resource
@@ -317,6 +322,8 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
 
         // Send the request with the comment data
         xhr.send('link=' + encodeURIComponent(resourceLink) + '&event_id=' + encodeURIComponent(eventId));
+
+        window.location.reload();
     }
 
     // Function to submit a recording link
@@ -355,6 +362,8 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
 
         // Send the request with the comment data
         xhr.send('recording=' + encodeURIComponent(recordingLink) + '&event_id=' + encodeURIComponent(eventId));
+
+        window.location.reload();
     }
 
     // Trigger the modal to open automatically when the page loads
