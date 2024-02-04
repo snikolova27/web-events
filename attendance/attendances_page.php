@@ -34,11 +34,13 @@ $attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>Attendances - Web events</title>
 </head>
 
 <body>
     <h1> Attendances </h1>
+    <?php include_once("../navbar/navbar.php"); ?>
     <?php
     // Check if there are subjects
     if ($attendanceInformation) {
@@ -74,10 +76,6 @@ $attendanceInformation = $attendance->getAllAttendancesWithEventInfo();
         echo '<p class="no-results">No attendance information available.</p>';
     }
     ?>
-    <div class="menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
-
-    </div>
 </body>
 
 </html>

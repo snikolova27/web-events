@@ -45,22 +45,13 @@ $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>Subjects - Web events</title>
 </head>
 
 <body>
     <h1> Subjects </h1>
-    <div class="horizontal-menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
-        <?php
-        // Check if the user is a faculty member or an adminto display the Attendances" button
-        if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
-        ?>
-            <a href="create_subject.html" class="common-button">Create a subject</a>
-        <?php
-        }
-        ?>
-    </div>
+    <?php include_once("../navbar/navbar.php"); ?>
     <?php
     // Check if there are subjects
     if ($subjects) {

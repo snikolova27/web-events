@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="../styles/forms.css" />
     <link rel="stylesheet" type="text/css" href="../styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
 
     <title>Event Creation - Web events</title>
   </head>
@@ -44,6 +45,7 @@
       $subjects = $facultyMember->getAssignedSubjects($facultyMemberData['fm_id']);
     ?>
     <h1>Create an event</h1>
+    <?php include_once("../navbar/navbar.php"); ?>
     <form class="form" action="create_event.php" method="post">
       <label for="event_name">Event name:</label>
       <input type="text" id="event_name" name="event_name" required />
@@ -66,7 +68,6 @@
       <label for="event_password">Event password:</label>
       <input type="text" id="event_password" name="event_password" required />
       <input type="submit" class="register" value="Create event" />
-      <a href="../home/home.php" class="common-button">Back to home</a>
     </form>
   </body>
 </html>

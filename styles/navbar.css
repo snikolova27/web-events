@@ -1,0 +1,24 @@
+.navbar {
+    background-color: #4CAF50; /* Green background */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.nav-link {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover */
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #45a049; /* Slightly darker green on hover/active */
+    color: white;
+    border-radius: 3px; /* Rounded corners on hover/active for individual links */
+}

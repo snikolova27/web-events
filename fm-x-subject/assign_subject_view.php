@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="../styles/forms.css" />
     <link rel="stylesheet" type="text/css" href="../styles/common.css" />
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
 
     <title>Subject Assigning - Web events</title>
   </head>
@@ -13,6 +14,8 @@
     require_once "../db/db.php";
     require_once "../subjects/subject.php"; 
     require_once "../faculty-member/faculty-member.php"; 
+
+    session_start();
 
     $db = new Db();
     $connection = $db->getConnection();
@@ -25,6 +28,7 @@
     ?>
 
     <h1>Assign a subject to a faculty member</h1>
+    <?php include_once("../navbar/navbar.php"); ?>
     <form class="form" action="assign_subject.php" method="post">
       <label for="subject_name">Subject name:</label>
       <select id="subject_name" name="subject_name" required>
@@ -50,7 +54,6 @@
       <label for="end_date">End Date:</label>
       <input type="date" id="end_date" name="end_date" required />
       <input type="submit" class="register" value="Assign subject" />
-      <a href="../home/home.php" class="common-button">Back to home</a>
     </form>
   </body>
 </html>

@@ -74,14 +74,13 @@ $didCurrentStudentAttendEvent = $attendance->getAttencersByFnAndEventId($eventId
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>Event Details - Web events</title>
 </head>
 
 <body>
     <h1>Event Details</h1>
-    <div class="horizontal-menu">
-        <p><a href="events.php" class="common-button">Back to Events</a></p>
-    </div>
+    <?php include_once("../navbar/navbar.php"); ?>
 
     <h2><?php echo "{$eventDetails['event_name']}" ?></h2>
     <p>Start Date: <?php echo "{$eventDetails['start_date_time']}" ?></p>

@@ -1,45 +1,3 @@
-<?php
-
-require_once("../db/db.php");
-require_once("../user/user.php");
-require_once("../faculty-member/faculty-member.php");
-require_once("event.php");
-require_once("../attendance/attendance.php");
-
-session_start();
-
-// Check if the user is authenticated (has a valid session)
-if (!isset($_SESSION['user_token'])) {
-    // Redirect to the sign-in page if not authenticated
-    header("Location: ../signin/signin.php");
-    exit();
-}
-
-// Access the user's ID if needed
-$userId = $_SESSION['user_id'];
-
-// Create a database connection
-$db = new Db();
-$connection = $db->getConnection();
-
-// Create a Event object
-$event = new Event($connection);
-
-// Create a User object
-$user = new User($connection);
-
-// Get all subjects
-$events = $event->getAllEvents();
-
-// Get current user information
-$currentUser = $user->getUserById($userId);
-
-$facultyMember = new FacultyMember($connection);
-$currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId);
-
-$attendance = new Attendance($connection);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,22 +6,54 @@ $attendance = new Attendance($connection);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>Events - Web events</title>
 </head>
 
 <body>
-    <h1> Events </h1>
-    <div class="horizontal-menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
-        <?php
-        // Check if the user is a faculty member or an admin to display the button for creation of an event
-        if ($currentFacultyMember || $currentUser['is_admin'] === 1) {
-        ?>
-            <a href="create_event_view.php" class="common-button">Create an event</a>
-        <?php
-        }
-        ?>
-    </div>
+    <?php
+
+    require_once("../db/db.php");
+    require_once("../user/user.php");
+    require_once("../faculty-member/faculty-member.php");
+    require_once("event.php");
+    require_once("../attendance/attendance.php");
+
+    session_start();
+
+    // Check if the user is authenticated (has a valid session)
+    if (!isset($_SESSION['user_token'])) {
+        // Redirect to the sign-in page if not authenticated
+        header("Location: ../signin/signin.php");
+        exit();
+    }
+
+    // Access the user's ID if needed
+    $userId = $_SESSION['user_id'];
+
+    // Create a database connection
+    $db = new Db();
+    $connection = $db->getConnection();
+
+    // Create a Event object
+    $event = new Event($connection);
+
+    // Create a User object
+    $user = new User($connection);
+
+    // Get all subjects
+    $events = $event->getAllEvents();
+
+    // Get current user information
+    $currentUser = $user->getUserById($userId);
+
+    $facultyMember = new FacultyMember($connection);
+    $currentFacultyMember = $facultyMember->getFacultyMemberByUserId($userId);
+
+    $attendance = new Attendance($connection);
+    ?>
+    <h1>Events</h1>
+    <?php include_once("../navbar/navbar.php"); ?>
     <?php
     // Check if there are events
     if ($events) {

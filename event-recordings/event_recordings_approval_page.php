@@ -35,11 +35,13 @@ $notApprovedRecordings = $eventRecording->getNotApprovedEventRecordingsdWithDeta
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>Event recordings awaiting approval - Web events</title>
 </head>
 
 <body>
-    <h1> Event recordings awaiting approval </h1>
+    <h1>Event recordings awaiting approval</h1>
+    <?php include_once("../navbar/navbar.php"); ?>
     <?php
     // Check if there are subjects
     if ($notApprovedRecordings) {
@@ -101,10 +103,6 @@ $notApprovedRecordings = $eventRecording->getNotApprovedEventRecordingsdWithDeta
         echo '<p class="no-results">No event recordings awaiting approval available.</p>';
     }
     ?>
-    <div class="menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
-
-    </div>
 </body>
 
 </html>

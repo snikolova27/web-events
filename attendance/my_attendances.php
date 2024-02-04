@@ -56,14 +56,13 @@ $attentedEvents = $attendance->getEventsWithDetailsForFn($currentStudent['fn']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/common.css">
     <link rel="stylesheet" type="text/css" href="../styles/subjects.css">
+    <link rel="stylesheet" type="text/css" href="../styles/navbar.css" />
     <title>My attendances - Web events</title>
 </head>
 
 <body>
     <h1> My attendances </h1>
-    <div class="horizontal-menu">
-        <a href="../home/home.php" class="common-button">Back to home</a>
-    </div>
+    <?php include_once("../navbar/navbar.php"); ?>
     <?php
     // Check if there are events
     if ($attentedEvents) {
