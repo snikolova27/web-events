@@ -16,9 +16,24 @@
     <h1>Import Students from CSV</h1>
     <?php include_once("../navbar/navbar.php"); ?>
     <form action="import_students.php" class="form" method="post" enctype="multipart/form-data">
-        <input type="file" name="studentFile" accept=".csv" class="common-button" required>
+        <label for="studentFile" class="file-upload-button">Choose File</label><span id="student-file-name"></span>
+        <input type="file" name="studentFile" id="studentFile" accept=".csv" class="common-button" required style="display: none;" onchange="updateFileName()">
         <br />
         <input type="submit" name="import" class="register" value="Import students" />
     </form>
+
+    <script>
+        function updateFileName() {
+            var input = document.getElementById('studentFile');
+            var fileNameSpan = document.getElementById('student-file-name');
+            if (input.files.length > 0) {
+                var fileName = input.files[0].name;
+                fileNameSpan.textContent = ' ' + fileName; // Add a space for visual separation
+            } else {
+                fileNameSpan.textContent = '';
+            }
+        }
+    </script>
+
 </body>
 </html>
